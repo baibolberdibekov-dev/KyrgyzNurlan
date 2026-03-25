@@ -1,327 +1,667 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kyrgyz View | Private Tours in Kyrgyzstan</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kyrgyz View – Discover the Beauty of Kyrgyzstan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton+SC&family=Darker+Grotesque:wght@700&family=Gantari:wght@600&family=Denk+One&display=swap" rel="stylesheet" />
+  <style>
+    /* ========== DESIGN TOKENS ========== */
+    :root {
+      --color-purple:        #533352;
+      --color-yellow:        #ffc65e;
+      --color-yellow-light:  rgba(255, 198, 94, 0.47);
+      --color-white:         #ffffff;
+      --color-green:         #005107;
+      --color-red:           #510001;
+      --color-black:         #000000;
 
-<style>
+      --font-anton:    'Anton SC', sans-serif;
+      --font-darker:   'Darker Grotesque', sans-serif;
+      --font-gantari:  'Gantari', sans-serif;
+      --font-denk:     'Denk One', sans-serif;
+      /* ZT Glora Pro is not on Google Fonts – fall back gracefully */
+      --font-glora:    'Georgia', serif;
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, Helvetica, sans-serif;
-}
+      --radius-card:   11px;
+      --radius-btn:    10px;
+      --radius-hero:   30px;
 
-body{
-color:#fff;
-background:#f5f5f5;
-}
+      --sp-1: 8px;
+      --sp-2: 16px;
+      --sp-3: 24px;
+      --sp-4: 32px;
+      --sp-5: 48px;
+      --sp-6: 64px;
 
-/* NAVBAR */
+      --max-content: 1400px;
+    }
 
-.navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 60px;
-background:#e9e9e9;
-position:fixed;
-width:100%;
-top:0;
-z-index:100;
-}
+    /* ========== RESET / BASE ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-glora);
+      background: var(--color-white);
+      color: var(--color-purple);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a  { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
 
-.logo{
-display:flex;
-align-items:center;
-gap:10px;
-color:#333;
-font-weight:bold;
-}
+    /* ========== LAYOUT HELPERS ========== */
+    .container {
+      width: 100%;
+      max-width: var(--max-content);
+      margin-inline: auto;
+      padding-inline: var(--sp-5);
+    }
 
-.logo img{
-height:45px;
-}
+    /* ========== HEADER / NAV ========== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--color-white);
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(83,51,82,0.07);
+    }
 
-.nav-links a{
-margin-left:30px;
-text-decoration:none;
-color:#333;
-font-weight:600;
-}
+    /* Logo */
+    .header__logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .header__logo-emblem {
+      width: 68px;
+      height: 68px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .header__logo-emblem img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .header__logo-text {
+      font-family: var(--font-darker);
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--color-purple);
+      line-height: 1.1;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
 
-/* HERO */
+    /* Nav links */
+    .nav { display: flex; align-items: center; gap: 0; }
+    .nav__list {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .nav__item { position: relative; }
+    .nav__item + .nav__item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 46px;
+      width: 1.5px;
+      background: var(--color-purple);
+    }
+    .nav__link {
+      display: block;
+      font-family: var(--font-darker);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--color-purple);
+      padding: 8px 28px;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav__link:hover { color: var(--color-yellow); }
 
-.hero{
-height:100vh;
-background:url("hero.jpg") center/cover no-repeat;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-position:relative;
-padding:20px;
-}
+    /* Hamburger (hidden on desktop) */
+    .nav__hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 110;
+    }
+    .nav__hamburger span {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background: var(--color-purple);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav__hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .nav__hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav__hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-.hero::before{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.4);
-}
+    /* Mobile menu overlay */
+    .nav__menu {
+      display: flex;
+      align-items: center;
+    }
 
-.hero-content{
-position:relative;
-max-width:700px;
-}
+    /* ========== HERO ========== */
+    .hero {
+      width: calc(100% - 60px);
+      max-width: 1820px;
+      margin: 24px auto 0;
+      border-radius: var(--radius-hero);
+      overflow: hidden;
+      position: relative;
+      min-height: 560px;
+    }
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 120%;
+      top: -10%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.15) 0%,
+        rgba(0,0,0,0.3) 60%,
+        rgba(0,0,0,0.55) 100%
+      );
+    }
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 40px 70px;
+      min-height: 560px;
+    }
+    .hero__title {
+      font-family: var(--font-anton);
+      font-size: clamp(36px, 5.5vw, 86px);
+      color: var(--color-white);
+      line-height: 1.05;
+      margin-bottom: 22px;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.3);
+    }
+    .hero__subtitle {
+      font-family: var(--font-glora);
+      font-size: clamp(16px, 2.2vw, 38px);
+      color: var(--color-white);
+      line-height: 1.55;
+      margin-bottom: 46px;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+    }
+    .hero__cta {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-white);
+      border-radius: var(--radius-btn);
+      padding: 14px 32px;
+      font-family: var(--font-gantari);
+      font-weight: 600;
+      font-size: clamp(15px, 1.6vw, 26px);
+      white-space: nowrap;
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+    .btn--whatsapp { color: var(--color-green); }
+    .btn--instagram { color: var(--color-red); }
 
-.hero h1{
-font-size:42px;
-margin-bottom:20px;
-}
+    /* ========== WHY CHOOSE US ========== */
+    .why {
+      padding: 80px 40px 20px;
+      text-align: center;
+    }
+    .why__title {
+      font-family: var(--font-anton);
+      font-size: clamp(28px, 4.5vw, 78px);
+      color: var(--color-purple);
+      margin-bottom: 54px;
+    }
+    .why__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      max-width: var(--max-content);
+      margin-inline: auto;
+    }
+    .why-card {
+      background: var(--color-yellow);
+      border-radius: var(--radius-card);
+      padding: 32px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-height: 360px;
+    }
+    .why-card__title {
+      font-family: var(--font-anton);
+      font-size: clamp(14px, 1.5vw, 28px);
+      color: var(--color-purple);
+      margin-bottom: 10px;
+      letter-spacing: 0.02em;
+    }
+    .why-card__desc {
+      font-family: var(--font-glora);
+      font-size: clamp(12px, 1.1vw, 20px);
+      color: var(--color-purple);
+      line-height: 1.45;
+      margin-bottom: 28px;
+    }
+    .why-card__icon {
+      margin-top: auto;
+      width: 56%;
+      max-width: 200px;
+      object-fit: contain;
+    }
+    .why-card__icon--tall { max-width: 160px; }
 
-.hero p{
-font-size:20px;
-line-height:1.6;
-margin-bottom:30px;
-}
+    /* ========== GALLERY ========== */
+    .gallery-section {
+      margin: 60px 24px 0;
+      background: var(--color-yellow-light);
+      border-radius: 30px;
+      padding: 56px 52px 60px;
+    }
+    .gallery-section__title {
+      font-family: var(--font-anton);
+      font-size: clamp(32px, 4vw, 74px);
+      color: var(--color-purple);
+      margin-bottom: 6px;
+    }
+    .gallery-section__subtitle {
+      font-family: var(--font-glora);
+      font-size: clamp(14px, 1.8vw, 32px);
+      color: var(--color-purple);
+      margin-bottom: 40px;
+    }
+    .gallery__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .gallery-card {
+      position: relative;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      aspect-ratio: 0.72;
+    }
+    .gallery-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gallery-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.82) 100%);
+    }
+    .gallery-card__caption {
+      position: absolute;
+      bottom: 16px;
+      left: 0;
+      right: 0;
+      padding: 0 14px;
+      font-family: var(--font-glora);
+      font-size: clamp(10px, 0.9vw, 17px);
+      color: var(--color-yellow);
+      text-align: center;
+      line-height: 1.4;
+    }
 
-/* BUTTONS */
+    /* ========== FOOTER ========== */
+    .footer {
+      margin-top: 80px;
+      padding: 32px 40px;
+      text-align: center;
+      font-family: var(--font-glora);
+      font-size: 14px;
+      color: rgba(83,51,82,0.55);
+      border-top: 1px solid rgba(83,51,82,0.1);
+    }
 
-.buttons{
-display:flex;
-justify-content:center;
-gap:20px;
-flex-wrap:wrap;
-}
+    /* ========== RESPONSIVE: TABLET ========== */
+    @media (max-width: 1024px) {
+      .header { padding: 12px 24px; }
 
-.btn{
-padding:14px 26px;
-border-radius:8px;
-font-weight:bold;
-text-decoration:none;
-background:white;
-}
+      /* Hide desktop nav, show hamburger */
+      .nav__menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 280px;
+        background: var(--color-white);
+        box-shadow: -4px 0 24px rgba(83,51,82,0.15);
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 48px 32px;
+        z-index: 105;
+        transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+        transform: translateX(100%);
+      }
+      .nav__menu.is-open {
+        display: flex;
+        transform: translateX(0);
+      }
+      .nav__list {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        width: 100%;
+      }
+      .nav__item + .nav__item::before { display: none; }
+      .nav__link {
+        font-size: 26px;
+        padding: 10px 0;
+        width: 100%;
+      }
+      .nav__hamburger { display: flex; }
 
-.whatsapp{
-color:#1a8f4c;
-}
+      .why__grid { grid-template-columns: repeat(2, 1fr); }
 
-.instagram{
-color:#8f1a1a;
-}
+      .gallery__grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-card { aspect-ratio: 0.8; }
 
-/* ABOUT */
+      .hero__title { font-size: clamp(28px, 5vw, 56px); }
+    }
 
-.about{
-display:flex;
-gap:50px;
-align-items:center;
-padding:80px 10%;
-background:url("mountains.jpg") center/cover no-repeat;
-position:relative;
-}
+    /* ========== RESPONSIVE: MOBILE ========== */
+    @media (max-width: 768px) {
+      .header { padding: 10px 16px; }
+      .header__logo-emblem { width: 48px; height: 48px; }
+      .header__logo-text { font-size: 15px; }
 
-.about::before{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
-}
+      .hero {
+        width: calc(100% - 24px);
+        margin-top: 16px;
+        border-radius: 18px;
+        min-height: 380px;
+      }
+      .hero__content {
+        padding: 52px 20px 48px;
+        min-height: 380px;
+      }
+      .hero__title  { font-size: clamp(26px, 7vw, 40px); margin-bottom: 14px; }
+      .hero__subtitle { font-size: clamp(13px, 4vw, 18px); margin-bottom: 30px; }
+      .hero__cta { gap: 14px; }
+      .btn { font-size: 15px; padding: 12px 22px; }
 
-.about-content{
-position:relative;
-display:flex;
-gap:50px;
-align-items:center;
-}
+      .why { padding: 52px 16px 16px; }
+      .why__title { font-size: clamp(24px, 7vw, 40px); margin-bottom: 32px; }
+      .why__grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .why-card { padding: 20px 14px 18px; min-height: 240px; }
 
-.about img{
-width:300px;
-border-radius:6px;
-}
+      .gallery-section { margin: 32px 12px 0; padding: 32px 20px 36px; border-radius: 18px; }
+      .gallery-section__title { font-size: clamp(28px, 8vw, 42px); }
+      .gallery__grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .gallery-card { aspect-ratio: 0.75; }
 
-.about-text{
-max-width:500px;
-}
+      .footer { margin-top: 48px; padding: 24px 16px; }
+    }
 
-.about-text h2{
-font-size:32px;
-margin-bottom:20px;
-}
-
-.about-text p{
-line-height:1.7;
-font-size:17px;
-}
-
-/* TOURS */
-
-.tours{
-padding:80px 10%;
-text-align:center;
-color:#333;
-background:white;
-}
-
-.tours h2{
-font-size:32px;
-margin-bottom:40px;
-}
-
-.cards{
-display:flex;
-gap:30px;
-flex-wrap:wrap;
-justify-content:center;
-}
-
-.card{
-width:280px;
-background:#fafafa;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
-
-.card img{
-width:100%;
-height:180px;
-object-fit:cover;
-}
-
-.card h3{
-margin:15px 0;
-}
-
-.card p{
-padding:0 15px 20px;
-font-size:14px;
-}
-
-/* FOOTER */
-
-footer{
-text-align:center;
-padding:30px;
-background:#222;
-color:white;
-}
-
-</style>
+    /* Overlay backdrop for mobile nav */
+    .nav__backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(83,51,82,0.35);
+      z-index: 100;
+    }
+    .nav__backdrop.is-open { display: block; }
+  </style>
 </head>
-
 <body>
 
-<header class="navbar">
+  <!-- ===== HEADER ===== -->
+  <header class="header" role="banner">
+    <a href="#" class="header__logo" aria-label="Kyrgyz View – Home">
+      <div class="header__logo-emblem">
+        <!-- Circular emblem composed of layered Figma assets -->
+        <img
+          src="https://www.figma.com/api/mcp/asset/75e06dca-b437-45e1-a3e1-7b0477d9d4e6"
+          alt="Kyrgyz View circular emblem"
+          width="68" height="68"
+          style="border-radius:50%; object-fit:cover;"
+        />
+      </div>
+      <span class="header__logo-text">KYRGYZ<br>VIEW</span>
+    </a>
 
-<div class="logo">
-<img src="logo.png">
-<span>Kyrgyz View</span>
-</div>
+    <!-- Desktop navigation -->
+    <nav class="nav" aria-label="Main navigation">
+      <button
+        class="nav__hamburger"
+        id="hamburger"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+        aria-label="Toggle navigation menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-<nav class="nav-links">
-<a href="#">MAIN</a>
-<a href="#about">ABOUT US</a>
-<a href="#tours">TOURS</a>
-</nav>
+      <div class="nav__backdrop" id="nav-backdrop"></div>
 
-</header>
+      <div class="nav__menu" id="nav-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="#" class="nav__link">MAIN</a></li>
+          <li class="nav__item"><a href="#about" class="nav__link">ABOUT US</a></li>
+          <li class="nav__item"><a href="#tours" class="nav__link">TOURS</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
 
-<section class="hero">
+  <!-- ===== MAIN ===== -->
+  <main>
 
-<div class="hero-content">
+    <!-- HERO -->
+    <section class="hero" aria-label="Hero banner">
+      <img
+        class="hero__bg"
+        src="https://www.figma.com/api/mcp/asset/bf9c0caa-0972-4426-9dd6-98b824c21189"
+        alt="Beautiful mountain landscape of Kyrgyzstan with clouds"
+      />
+      <div class="hero__overlay" aria-hidden="true"></div>
+      <div class="hero__content">
+        <h1 class="hero__title">Discover the Beauty of Kyrgyzstan!</h1>
+        <p class="hero__subtitle">
+          Tour Guide in Kyrgyzstan 🇰🇬<br>
+          Mountains. Lakes. Nomads. Adventures.<br>
+          Private tours &amp; hidden gems with a local guide.
+        </p>
+        <div class="hero__cta">
+          <a href="https://wa.me/" target="_blank" rel="noopener" class="btn btn--whatsapp">Book via WhatsApp</a>
+          <a href="https://instagram.com/" target="_blank" rel="noopener" class="btn btn--instagram">Book via Instagram</a>
+        </div>
+      </div>
+    </section>
 
-<h1>Discover the Beauty of Kyrgyzstan!</h1>
+    <!-- WHY CHOOSE US -->
+    <section class="why" id="about" aria-labelledby="why-title">
+      <h2 class="why__title" id="why-title">WHY PEOPLE CHOOSE US?</h2>
+      <div class="why__grid">
 
-<p>
-Tour Guide in Kyrgyzstan 🇰🇬<br>
-Mountains. Lakes. Nomads. Adventures.<br>
-Private tours & hidden gems with a local guide.
-</p>
+        <article class="why-card">
+          <h3 class="why-card__title">English-Speaking Guides</h3>
+          <p class="why-card__desc">Easy communication for international travelers</p>
+          <img
+            class="why-card__icon why-card__icon--tall"
+            src="https://www.figma.com/api/mcp/asset/31eb772c-4219-4e2a-b08e-98cffdbf44c3"
+            alt="Illustration of a person with a speech bubble saying ENGLISH"
+          />
+        </article>
 
-<div class="buttons">
+        <article class="why-card">
+          <h3 class="why-card__title">Custom Tours</h3>
+          <p class="why-card__desc">We create trips based on your needs</p>
+          <img
+            class="why-card__icon"
+            src="https://www.figma.com/api/mcp/asset/53067bb4-2da6-408e-ab5c-e1b1cd66e839"
+            alt="Illustration of a custom route map"
+          />
+        </article>
 
-<a class="btn whatsapp" href="https://wa.me/996XXXXXXXXX">
-Book via WhatsApp
-</a>
+        <article class="why-card">
+          <h3 class="why-card__title">Local Guides</h3>
+          <p class="why-card__desc">We know every hidden place</p>
+          <img
+            class="why-card__icon"
+            src="https://www.figma.com/api/mcp/asset/7bbab1f9-53d2-46a1-8f32-4220e900e476"
+            alt="Illustration of a local guide with a hat"
+          />
+        </article>
 
-<a class="btn instagram" href="https://instagram.com/yourpage">
-Book via Instagram
-</a>
+        <article class="why-card">
+          <h3 class="why-card__title">Safe &amp; Reliable</h3>
+          <p class="why-card__desc">Experienced team and trusted routes</p>
+          <img
+            class="why-card__icon"
+            src="https://www.figma.com/api/mcp/asset/85e5b795-4a1b-4cca-856b-c551f651e5cb"
+            alt="Illustration of a shield with a checkmark representing safety"
+          />
+        </article>
 
-</div>
+      </div>
+    </section>
 
-</div>
+    <!-- GALLERY -->
+    <section class="gallery-section" id="tours" aria-labelledby="gallery-title">
+      <h2 class="gallery-section__title" id="gallery-title">GALLERY</h2>
+      <p class="gallery-section__subtitle">Our recent travels</p>
 
-</section>
+      <div class="gallery__grid">
 
-<section id="about" class="about">
+        <article class="gallery-card">
+          <img
+            class="gallery-card__img"
+            src="https://www.figma.com/api/mcp/asset/a522ad49-f4b7-44ee-a5af-936fa97bbaec"
+            alt="Guide and traveler at Ala-Archa winter landscape with snow-capped mountains"
+          />
+          <div class="gallery-card__overlay" aria-hidden="true"></div>
+          <p class="gallery-card__caption">Exploring Ala-Archa and Chunkurchak with Saif from Saudi Arabia! 🏔️❄️</p>
+        </article>
 
-<div class="about-content">
+        <article class="gallery-card">
+          <img
+            class="gallery-card__img"
+            src="https://www.figma.com/api/mcp/asset/744301ca-ff69-437e-b996-1adc2b4f7fe5"
+            alt="Horseback riding through the Kyrgyzstan countryside in winter"
+          />
+          <div class="gallery-card__overlay" aria-hidden="true"></div>
+          <p class="gallery-card__caption">✨ Discover the Beauty of Kyrgyzstan on Horseback!</p>
+        </article>
 
-<img src="guide.jpg">
+        <article class="gallery-card">
+          <img
+            class="gallery-card__img"
+            src="https://www.figma.com/api/mcp/asset/69d3a7aa-fa3f-4700-8186-4737ccc97de8"
+            alt="Ancient petroglyphs carved into stone at Cholpon-Ata open-air museum"
+          />
+          <div class="gallery-card__overlay" aria-hidden="true"></div>
+          <p class="gallery-card__caption">🪨 Petroglyphs of Cholpon-Ata — Open-Air History</p>
+        </article>
 
-<div class="about-text">
+        <article class="gallery-card">
+          <img
+            class="gallery-card__img"
+            src="https://www.figma.com/api/mcp/asset/6c9c3200-bf46-4f33-9e25-098b1275180f"
+            alt="Crystal clear turquoise water of Köl-Suu lake surrounded by dramatic cliffs"
+          />
+          <div class="gallery-card__overlay" aria-hidden="true"></div>
+          <p class="gallery-card__caption">Köl-Suu: The Hidden Sanctuary of the Tien Shan 🏔️💎</p>
+        </article>
 
-<h2>Tokonov Nurlan</h2>
+      </div>
+    </section>
 
-<p>
-Our local guide Nurlan has many years of experience traveling across Kyrgyzstan. 
-He knows the mountain roads, hidden places, and the best locations to eat and stay during the journey.
+  </main>
 
-Friendly and very talkative, he speaks excellent English and enjoys sharing stories about Kyrgyz culture and nomadic life.
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" role="contentinfo">
+    <p>&copy; 2025 Kyrgyz View. All rights reserved. | Tour Guide in Kyrgyzstan</p>
+  </footer>
 
-We organize private tours for any budget including road trips, hiking adventures, and horse riding tours in the beautiful mountains of Kyrgyzstan.
-</p>
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    (function () {
+      const hamburger = document.getElementById('hamburger');
+      const menu      = document.getElementById('nav-menu');
+      const backdrop  = document.getElementById('nav-backdrop');
 
-</div>
+      function openMenu() {
+        menu.classList.add('is-open');
+        backdrop.classList.add('is-open');
+        hamburger.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
 
-</div>
+      function closeMenu() {
+        menu.classList.remove('is-open');
+        backdrop.classList.remove('is-open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
 
-</section>
+      hamburger.addEventListener('click', function () {
+        const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
+        isOpen ? closeMenu() : openMenu();
+      });
 
-<section id="tours" class="tours">
+      backdrop.addEventListener('click', closeMenu);
 
-<h2>Popular Tours</h2>
+      menu.querySelectorAll('.nav__link').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
 
-<div class="cards">
-
-<div class="card">
-<img src="issyk.jpg">
-<h3>Issyk Kul Tour</h3>
-<p>Explore the famous alpine lake surrounded by mountains and beautiful landscapes.</p>
-</div>
-
-<div class="card">
-<img src="songkol.jpg">
-<h3>Song Kol Tour</h3>
-<p>Experience nomadic life, stay in yurts and ride horses in the high mountains.</p>
-</div>
-
-<div class="card">
-<img src="alaarcha.jpg">
-<h3>Ala Archa Hiking</h3>
-<p>A perfect one day hiking trip in one of the most beautiful national parks.</p>
-</div>
-
-</div>
-
-</section>
-
-<footer>
-
-<p>© 2025 Kyrgyz View — Private Tours in Kyrgyzstan</p>
-
-</footer>
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenu();
+      });
+    })();
+  </script>
 
 </body>
 </html>
